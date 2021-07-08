@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.urls import path
 
-from gamers.views import UserRegistrationAPIView
+from gamers.views import UserRegistrationAPIView,UsersProfileAPIView, UserSearchAPIView
 
 app_name = 'gamers'
 
 urlpatterns = [
-    path('sign-up/', UserRegistrationAPIView.as_view(), name="create")
+    path('sign-up/', UserRegistrationAPIView.as_view(), name="create"),
+    path('me/', UsersProfileAPIView.as_view(), name="login"),
+    path('search/', UserSearchAPIView.as_view(), name="get_users")
 ]
