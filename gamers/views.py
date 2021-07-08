@@ -18,7 +18,7 @@ class UserRegistrationAPIView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         """
-        This Method Create New User
+        This Method Create New Game User
         :param request:
         :param args:
         :param kwargs:
