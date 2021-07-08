@@ -79,3 +79,49 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         })
 
         return user
+
+
+class UserSearchSerializer(serializers.Serializer):
+    """
+    This Class Search Gamer User Details
+    """
+    key = serializers.CharField(required=True)
+    value = serializers.CharField(required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(UserSearchSerializer, self).__init__(*args, **kwargs)
+
+        self.search_keys = {
+            "username": "user__username",
+            "first_name": "user__first_name",
+            "last_name": "user__last_name",
+            "birthdate": GameUser.birthdate
+        }
+        self.user = None
+
+    def validate(self, attrs):
+        """
+        This Function Validates User Authenticate And Return User Details
+        :param attrs:
+        :return:
+        """
+        attrs = dict(attrs)
+
+        if attrs.get('key') not in self.search_keys.keys():
+            raise serializers.ValidationError("User Search Keyword Invalid")
+
+        return attrs
+
+    def get_user(self, validated_data):
+        """
+        This Method Return Gamer Details By Search Key
+        :param validated_data:
+        :return:
+        """
+        key = validated_data["key"]
+
+        users = GameUser.objects.filter(
+            self.search_keys[key] == validated_data["value"]
+        )
+
+        return list(users)

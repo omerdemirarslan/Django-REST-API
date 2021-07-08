@@ -15,6 +15,6 @@ class GameUser(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = "user_profile"
-        verbose_name_plural = "User Profile Details"
+        db_table = "gamer_users"
+        verbose_name_plural = "Gamer User Details"
         ordering = ('-updated_at',)

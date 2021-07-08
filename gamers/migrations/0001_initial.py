@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name_plural': 'User Profile Details',
-                'db_table': 'user_profile',
+                'db_table': 'gamer_users',
                 'ordering': ('-updated_at',),
             },
         ),
