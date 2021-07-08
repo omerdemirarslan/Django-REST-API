@@ -22,9 +22,18 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '3io)7tj9wmb!f*q&)s=4acbb*twc6jzcn&q@!dj!vl&^7&0vqy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+
+# Set The REST Framework Page Size
+
+REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    ]
+}
 
 # Application definition
 
