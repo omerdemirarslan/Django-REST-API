@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 api_urls = [
-    path('gamers/', include('gamers.urls'))
+    path('users/', include('gamers.urls'))
 ]
 
 urlpatterns = [

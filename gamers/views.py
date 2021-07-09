@@ -2,12 +2,12 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView, UpdateAPIView
 from rest_framework.authentication import BasicAuthentication
 
 from gamers.models import GameUser
 
-from gamers.serializers import UserRegistrationSerializer, UserSearchSerializer
+from gamers.serializers import UserRegistrationSerializer, UserSearchSerializer, UserDetailsUpdateSerializer
 
 
 class UserRegistrationAPIView(CreateAPIView):
@@ -102,6 +102,7 @@ class UserSearchAPIView(GenericAPIView):
         This Function Returns Database Search Result
         :return:
         """
+
         data = dict(request.GET)
 
         self.request_data = {
@@ -114,5 +115,35 @@ class UserSearchAPIView(GenericAPIView):
 
         return Response(
             data=self.get_queryset(),
+            status=status.HTTP_200_OK,
+        )
+
+
+class UserUpdateAPIView(UpdateAPIView):
+    """
+    This Class Contain Update Methos
+    """
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserDetailsUpdateSerializer
+
+    def update(self, request, *args, **kwargs):
+        """
+        This Method Updates User Information Validated Authentication
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        user_object = GameUser.objects.get(pk=request.user.id)
+
+        put_method_data = request.data
+
+        user_object.birthdate = put_method_data["birthdate"]
+        user_object.about = put_method_data["about"]
+        user_object.save()
+
+        return Response(
+            data=request.data,
             status=status.HTTP_200_OK,
         )
