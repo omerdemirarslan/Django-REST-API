@@ -6,7 +6,6 @@ from rest_framework.generics import CreateAPIView, GenericAPIView, UpdateAPIView
 from rest_framework.authentication import BasicAuthentication
 
 from gamers.models import GameUser
-
 from gamers.serializers import UserRegistrationSerializer, UserSearchSerializer, UserDetailsUpdateSerializer
 
 
@@ -26,9 +25,7 @@ class UserRegistrationAPIView(CreateAPIView):
         """
         serializer = self.get_serializer(data=request.data)
         user = serializer.create(validated_data=request.data)
-
-        response = {"id": user.id}
-
+        response = {'id': user.id}
         headers = self.get_success_headers(user)
 
         return Response(response, status=status.HTTP_201_CREATED, headers=headers)
@@ -51,11 +48,11 @@ class UsersProfileAPIView(GenericAPIView):
 
         return Response(
             data={
-                "about": user_details.about,
-                "birthdate": user_details.birthdate,
-                "date_joined": user_details.user.date_joined,
-                "first_name": user_details.user.first_name,
-                "last_name": user_details.user.last_name,
+                'about': user_details.about,
+                'birthdate': user_details.birthdate,
+                'date_joined': user_details.user.date_joined,
+                'first_name': user_details.user.first_name,
+                'last_name': user_details.user.last_name,
             },
             status=status.HTTP_200_OK,
         )
@@ -80,19 +77,19 @@ class UserSearchAPIView(GenericAPIView):
         """
         users = GameUser.objects.filter(
             **{
-                self.serializer.search_keys[self.request_data["key"]]: self.request_data["value"],
-                "user__is_active": True
+                self.serializer.search_keys[self.request_data['key']]: self.request_data['value'],
+                'user__is_active': True
             }
         ).select_related()
 
         return [
             {
-                "id": user.user.id,
-                "user_name": user.user.username,
-                "first_name": user.user.first_name,
-                "last_name": user.user.last_name,
-                "about": user.about,
-                "birthdate": user.birthdate
+                'id': user.user.id,
+                'user_name': user.user.username,
+                'first_name': user.user.first_name,
+                'last_name': user.user.last_name,
+                'about': user.about,
+                'birthdate': user.birthdate
             }
             for user in users
         ]
@@ -106,8 +103,8 @@ class UserSearchAPIView(GenericAPIView):
         data = dict(request.GET)
 
         self.request_data = {
-            "key": list(data.keys())[0],
-            "value": list(data.values())[0][0]
+            'key': list(data.keys())[0],
+            'value': list(data.values())[0][0]
         }
 
         self.serializer = self.get_serializer(data=self.request_data)
@@ -136,14 +133,13 @@ class UserUpdateAPIView(UpdateAPIView):
         :return:
         """
         user_object = GameUser.objects.get(pk=request.user.id)
-
         put_method_data = request.data
 
-        user_object.birthdate = put_method_data["birthdate"]
-        user_object.about = put_method_data["about"]
+        user_object.birthdate = put_method_data['birthdate']
+        user_object.about = put_method_data['about']
         user_object.save()
 
         return Response(
-            data=request.data,
+            data=put_method_data,
             status=status.HTTP_200_OK,
         )

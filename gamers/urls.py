@@ -20,8 +20,8 @@ from gamers.views import UserRegistrationAPIView, UsersProfileAPIView, UserSearc
 app_name = 'users'
 
 urlpatterns = [
-    path('sign-up/', UserRegistrationAPIView.as_view(), name="create"),
-    path('me/', UsersProfileAPIView.as_view(), name="login"),
-    path('search/', UserSearchAPIView.as_view(), name="get_users"),
-    path('update/', UserUpdateAPIView.as_view(), name="update-bio")
+    path('sign-up/', UserRegistrationAPIView.as_view(), name='create'),
+    path('me/', UsersProfileAPIView.as_view(), name='login'),
+    path('search/', UserSearchAPIView.as_view(), name='get_users'),
+    path('update/', UserUpdateAPIView.as_view(), name='update-bio')
 ]
