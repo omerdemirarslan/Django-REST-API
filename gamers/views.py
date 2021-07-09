@@ -133,14 +133,23 @@ class UserUpdateAPIView(UpdateAPIView):
         :param kwargs:
         :return:
         """
-        user_object = GameUser.objects.get(pk=request.user.id)
-        put_method_data = request.data
+        try:
+            user_id = request.user.id
+            user_object = GameUser.objects.get(pk=user_id)
+            put_method_data = request.data
 
-        user_object.birthdate = put_method_data['birthdate']
-        user_object.about = put_method_data['about']
-        user_object.save()
+            user_object.birthdate = put_method_data['birthdate']
+            user_object.about = put_method_data['about']
+            user_object.save()
 
-        return Response(
-            data=put_method_data,
-            status=status.HTTP_200_OK,
-        )
+            updated_user_details = GameUser.objects.filter(user=user_id)
+
+            return Response(
+                data=updated_user_details,
+                status=status.HTTP_200_OK,
+            )
+        except Exception:
+            return Response(
+                data={},
+                status=status.HTTP_304_NOT_MODIFIED,
+            )
