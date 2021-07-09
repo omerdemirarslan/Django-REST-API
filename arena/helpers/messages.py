@@ -5,3 +5,4 @@ PASSWORD_MISMATCH = "Your Password and Confirm Password Do Not Match. Please Che
 USER_CREATION_ERROR = "An Error Occurred While Creating A New Record. Please Try Again."
 NULL_AREA = "There Is Null Are Your Entered Information. Pleas Enter All Information"
 SEARCH_KEY_ERROR = "User Search Keyword Invalid"
+USER_NOT_FOUND = "User Not Found"

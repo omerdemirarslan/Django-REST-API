@@ -15,7 +15,7 @@ class UserRegistrationAPIView(CreateAPIView):
     """
     serializer_class = UserRegistrationSerializer
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs) -> Response:
         """
         This Method Create New Game User
         :param request:
@@ -38,24 +38,30 @@ class UsersProfileAPIView(GenericAPIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request) -> Response:
         """
         This Method Returns Authenticated Game User's Information
         :param request:
         :return:
         """
-        user_details = GameUser.objects.get(user=request.user.id)
+        try:
+            user_details = GameUser.objects.get(user=request.user.id)
 
-        return Response(
-            data={
-                'about': user_details.about,
-                'birthdate': user_details.birthdate,
-                'date_joined': user_details.user.date_joined,
-                'first_name': user_details.user.first_name,
-                'last_name': user_details.user.last_name,
-            },
-            status=status.HTTP_200_OK,
-        )
+            return Response(
+                data={
+                    'about': user_details.about,
+                    'birthdate': user_details.birthdate,
+                    'date_joined': user_details.user.date_joined,
+                    'first_name': user_details.user.first_name,
+                    'last_name': user_details.user.last_name,
+                },
+                status=status.HTTP_200_OK,
+            )
+        except Exception:
+            return Response(
+                data={},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
 
 class UserSearchAPIView(GenericAPIView):
@@ -70,7 +76,7 @@ class UserSearchAPIView(GenericAPIView):
         self.request_data = None
         self.seralizer = None
 
-    def get_queryset(self):
+    def get_queryset(self) -> list:
         """
         This Function Create Query Set For Database Filter
         :return:
@@ -82,31 +88,26 @@ class UserSearchAPIView(GenericAPIView):
             }
         ).select_related()
 
-        return [
-            {
-                'id': user.user.id,
-                'user_name': user.user.username,
-                'first_name': user.user.first_name,
-                'last_name': user.user.last_name,
-                'about': user.about,
-                'birthdate': user.birthdate
-            }
-            for user in users
-        ]
+        return [{
+            'id': user.user.id,
+            'user_name': user.user.username,
+            'first_name': user.user.first_name,
+            'last_name': user.user.last_name,
+            'about': user.about,
+            'birthdate': user.birthdate
+        } for user in users]
 
-    def get(self, request):
+    def get(self, request) -> Response:
         """
         This Function Returns Database Search Result
         :return:
         """
-
         data = dict(request.GET)
 
         self.request_data = {
             'key': list(data.keys())[0],
             'value': list(data.values())[0][0]
         }
-
         self.serializer = self.get_serializer(data=self.request_data)
         self.serializer.is_valid(raise_exception=True)
 
@@ -124,7 +125,7 @@ class UserUpdateAPIView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserDetailsUpdateSerializer
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs) -> Response:
         """
         This Method Updates User Information Validated Authentication
         :param request:

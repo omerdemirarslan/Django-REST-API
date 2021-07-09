@@ -97,11 +97,15 @@ class UserSearchSerializer(serializers.ModelSerializer):
             'username': 'user__username',
             'first_name': 'user__first_name',
             'last_name': 'user__last_name',
-            'birthdate': GameUser.birthdate
+            'birthdate': 'birthdate',
         }
         self.user = None
 
-    def validate(self, attrs):
+    class Meta:
+        model = GameUser
+        fields = ('key', 'value')
+
+    def validate(self, attrs) -> dict:
         """
         This Function Validates User Authenticate And Return User Details
         :param attrs:
@@ -116,14 +120,13 @@ class UserSearchSerializer(serializers.ModelSerializer):
 
         return attrs
 
-    def get_user(self, validated_data):
+    def get_user(self, validated_data: dict) -> list:
         """
         This Method Return Gamer Details By Search Key
         :param validated_data:
         :return:
         """
         key = validated_data['key']
-
         users = GameUser.objects.filter(
             self.search_keys[key] == validated_data['value']
         )
