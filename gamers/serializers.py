@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from datetime import datetime
 
 from gamers.models import GameUser
-from arena.general_helper.general_messages import EXIST_USER, PASSWORD_MISMATCH, USER_CREATION_ERROR
+from arena.general_helper.general_messages import EXIST_USER, PASSWORD_MISMATCH, USER_CREATION_ERROR, NULL_AREA
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -81,7 +82,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserSearchSerializer(serializers.Serializer):
+class UserSearchSerializer(serializers.ModelSerializer):
     """
     This Class Search Gamer User Details
     """
@@ -125,3 +126,31 @@ class UserSearchSerializer(serializers.Serializer):
         )
 
         return list(users)
+
+
+class UserDetailsUpdateSerializer(serializers.ModelSerializer):
+    """
+
+    """
+    birthdate = serializers.CharField(write_only=True)
+    about = serializers.CharField(write_only=True)
+
+    def __init__(self, *args, **kwargs):
+        super(UserDetailsUpdateSerializer, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = GameUser
+        fields = ("birthdate", "about")
+
+    def validate(self, attrs):
+        """
+        This Method Check Exist Of The Game User.
+        :param attrs:
+        :return:
+        """
+        if not all([attrs.get("birthdate"), attrs.get("about")]):
+            error = {"message": NULL_AREA}
+
+            raise serializers.ValidationError(error)
+
+        return attrs
