@@ -43,6 +43,7 @@ For the project to up; Docker application must be installed and running in your 
 * Test to verify registration with already exists username.
 * Test to verify registration with valid datas
 * Tested API authentication endpoint validations
+* Exporting User/Users With CSV Extension (Dashboard Admin)
 
 ### Endpoints
 
