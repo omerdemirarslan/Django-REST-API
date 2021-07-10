@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.urls import path
 
-from gamers.views import UserRegistrationAPIView, UsersProfileAPIView, UserSearchAPIView, UserUpdateAPIView
+from gamers.views import home_page_view, UserRegistrationAPIView, UsersProfileAPIView, UserSearchAPIView, \
+    UserUpdateAPIView
 
 app_name = 'users'
 
