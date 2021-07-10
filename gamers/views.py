@@ -6,7 +6,17 @@ from rest_framework.generics import CreateAPIView, GenericAPIView, UpdateAPIView
 from rest_framework.authentication import BasicAuthentication
 
 from gamers.models import GameUser
+from arena.helpers.messages import HOME_PAGE
 from gamers.serializers import UserRegistrationSerializer, UserSearchSerializer, UserDetailsUpdateSerializer
+
+
+def home_page_view(request):
+    """
+    This Function Return HTTP Response and Method Contaion Simple Explain For REST APT Requests
+    :param request:
+    :return:
+    """
+    return HttpResponse(HOME_PAGE, content_type='text/plain')
 
 
 class UserRegistrationAPIView(CreateAPIView):
