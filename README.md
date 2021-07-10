@@ -78,6 +78,11 @@ For the project to up; Docker application must be installed and running in your 
 
 ---
 
+#### Login
+
+* **URL:** `/users/me/`
+* **METHOD:** `POST/GET`
+
 #### Request
 
     username: iron-man
@@ -96,6 +101,11 @@ For the project to up; Docker application must be installed and running in your 
 ```
 
 ---
+
+#### Search
+
+* **URL:** `/users/search/`
+* **METHOD:** `GET`
 
 #### Request
 
@@ -117,6 +127,11 @@ For the project to up; Docker application must be installed and running in your 
 ```
 
 ---
+
+#### Update
+
+* **URL:** `/users/update/`
+* **METHOD:** `PUT/PATCH`
 
 #### Request
 
