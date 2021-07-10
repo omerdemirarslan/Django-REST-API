@@ -7,6 +7,7 @@ from rest_framework.generics import CreateAPIView, GenericAPIView, UpdateAPIView
 from rest_framework.authentication import BasicAuthentication
 
 from gamers.models import GameUser
+from django.contrib.auth.models import User
 from arena.helpers.messages import HOME_PAGE
 from gamers.serializers import UserRegistrationSerializer, UserSearchSerializer, UserDetailsUpdateSerializer
 
@@ -145,22 +146,20 @@ class UserUpdateAPIView(UpdateAPIView):
         :return:
         """
         try:
-            user_id = request.user.id
-            user_object = GameUser.objects.get(pk=user_id)
-            put_method_data = request.data
+            user_object = GameUser.objects.get(user=request.user.id)
 
-            user_object.birthdate = put_method_data['birthdate']
-            user_object.about = put_method_data['about']
+            data = request.data
+
+            user_object.birthdate = data["birthdate"]
+            user_object.about = data["about"]
             user_object.save()
 
-            updated_user_details = GameUser.objects.filter(user=user_id)
-
             return Response(
-                data=updated_user_details,
+                data=data,
                 status=status.HTTP_200_OK,
             )
         except Exception:
             return Response(
                 data={},
-                status=status.HTTP_304_NOT_MODIFIED,
+                status=status.HTTP_400_BAD_REQUEST,
             )
