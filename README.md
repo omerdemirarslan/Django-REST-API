@@ -82,7 +82,7 @@ For the project to up; Docker application must be installed and running in your 
 #### Login
 
 * **URL:** `/users/me/`
-* **METHOD:** `POST`
+* **METHOD:** `GET`
 
 #### Request
 
