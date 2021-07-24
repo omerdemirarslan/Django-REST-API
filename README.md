@@ -132,7 +132,7 @@ For the project to up; Docker application must be installed and running in your 
 #### Update
 
 * **URL:** `/users/update/`
-* **METHOD:** `PUT/PATCH`
+* **METHOD:** `PATCH`
 
 #### Request
 
